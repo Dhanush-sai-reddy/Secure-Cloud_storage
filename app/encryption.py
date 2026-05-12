@@ -16,6 +16,7 @@ def derive_keys(keyword, master_key=MASTER_KEY):
 
 def encrypt_file(data, keyword):
     """Algorithm 2: Encrypts data using k2 derived from the keyword."""
+    print(f" [DEBUG] Data length to encrypt: {len(data)} bytes")
     _, k2, _ = derive_keys(keyword) # Updated to skip kv
     aesgcm = AESGCM(k2)
     nonce = os.urandom(12)

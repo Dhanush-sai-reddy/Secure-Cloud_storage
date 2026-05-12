@@ -64,7 +64,7 @@ def get_clean_keywords(abs_path):
         
         # VALIDATION: Ensure keyword isn't a stop word and meets length requirements
         if clean_word not in stop_words and clean_word not in coding_words:
-            if clean_word.isalpha() and len(clean_word) >= 3:
+            if clean_word.isalnum() and len(clean_word) >= 3:
                 useful.add(clean_word)
             elif clean_word.isdigit() and len(clean_word) >= 9:
                 useful.add(clean_word)

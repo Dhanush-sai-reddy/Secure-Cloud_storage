@@ -30,6 +30,7 @@ class LogStream:
 
 # Redirect standard output so 'print' goes to our queue
 sys.stdout = LogStream()
+sys.stderr = LogStream()
 
 @app.route('/stream-logs')
 def stream_logs():
@@ -82,7 +83,12 @@ import io
 
 @app.route('/download', methods=['POST'])
 def download_file_route():
-    data = request.get_json()
+    if request.is_json:
+        data = request.get_json()
+    else:
+        import json
+        data = json.loads(request.form.get('payload', '{}'))
+
     try:
         # 1. Decrypt the file logic (this should return bytes)
         # Assuming decrypt_and_save returns the local path as before:
@@ -99,4 +105,4 @@ def download_file_route():
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 if __name__ == '__main__':
-    app.run(port=5030, debug=True)
+    app.run(port=5030, debug=False)

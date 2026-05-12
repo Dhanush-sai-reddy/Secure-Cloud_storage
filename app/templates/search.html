@@ -99,25 +99,22 @@
             terminalBody.scrollTop = terminalBody.scrollHeight;
         };
 
-        async function downloadFile(index) {
+        function downloadFile(index) {
             const selected = currentResults[index];
-            try {
-                const response = await fetch('/download', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({selected, keyword: activeSearchTerm})
-                });
-                if (!response.ok) {
-                const errorData = await response.json();
-                alert(`Security/Storage Alert: ${errorData.error}`); // Shows "File not found"
-                return;
-            }
-                const blob = await response.blob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url; a.download = selected.original;
-                document.body.appendChild(a); a.click(); a.remove();
-            } catch (err) { alert('Download failed'); }
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/download';
+            form.style.display = 'none';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'payload';
+            input.value = JSON.stringify({selected, keyword: activeSearchTerm});
+            
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
         }
 
         document.getElementById('keyword').addEventListener('keypress', (e) => { if (e.key === 'Enter') performSearch(); });

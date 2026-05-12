@@ -126,6 +126,8 @@ def decrypt_and_save(selected_item):
     local_enc_path = os.path.join("downloads", s3_key)
     
     if download_file(s3_key, local_enc_path):
+        print(f" [DEBUG] decrypt_and_save: s3_key={s3_key}, original={original_name}")
+        print(f" [DEBUG] selected_item has f_hash: {'f_hash' in selected_item}")
         try:
             # Scoped block: Open, read, and close immediately
             with open(local_enc_path, "rb") as f:
@@ -140,16 +142,20 @@ def decrypt_and_save(selected_item):
                 return None
                 
             # Decryption
+            print(f" Attempting decryption for '{original_name}'...")
             plain_data = decrypt_file(enc_data, original_name) 
+            print(f" Decryption successful! Size: {len(plain_data)} bytes")
+            
             output_path = os.path.join("downloads", f"RESTORED_{original_name}")
             with open(output_path, "wb") as f_out:
                 f_out.write(plain_data)
+            print(f" Restored file saved to: {output_path}")
             
             if os.path.exists(local_enc_path):
                 os.remove(local_enc_path) 
             return output_path
         except Exception as e:
-            print(f" Error: {e}")
+            print(f" Decryption Error for '{original_name}': {e}")
             return None
     return None
 
