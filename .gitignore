@@ -38,3 +38,13 @@ Thumbs.db
 access.pem
 *.conf
 .env
+
+# App temporary storage directories
+app/temp_uploads/
+app/cloud_artifacts/
+app/downloads/
+app/TestFiles/
+
+# Lab reports and random docs
+*.docx
+*.pdf

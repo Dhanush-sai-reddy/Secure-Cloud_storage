@@ -122,42 +122,42 @@ ROOT KEY (requires 2 of 2 departments)
 
 | Module | Purpose |
 |---|---|
-| `app.py` | Flask entry point. Exposes `/`, `/upload`, `/search`, `/download`, and a live `/stream-logs` SSE endpoint for real-time console output in the browser UI. |
-| `scs_client.py` | Upload pipeline: keyword extraction, XOR-chain index construction, Jianding tag generation, AES-GCM encryption, S3 upload, and EC2 index update. |
-| `scs_search.py` | Search pipeline: trapdoor generation, EC2 chain traversal, dual-layer Jianding verification (index MAC + S3 content hash + completeness), and client-side decryption. |
-| `encryption.py` | Key derivation (`derive_keys`) and AES-GCM file encryption/decryption. Implements Algorithms 1, 2, and 6. |
-| `aws_client.py` | Thin boto3 wrapper for S3 upload and download. |
-| `ec2_server.py` | Flask server deployed on EC2. Implements the `/update` (Algorithm 2 store) and `/search` (Algorithm 5 chain traversal) endpoints. |
-| `hexie.py` | Legacy trapdoor helper. Loads local `di_state` and returns `(kt1, π)` for a keyword. |
-| `jianding.py` | Reserved for standalone Jianding verification utilities. |
-| `hexie_chain_visualiser.py` | Developer utility to visualise the XOR chain structure in `local_hexie_state.json`. |
-| `hexie_inspector.py` | Developer utility to inspect individual chain entries. |
-| `local_server.py` | Local EC2 simulation server for offline/testing use. |
-| `scs_cleanup.py` | Cleanup utility. Clears local state files, downloads, and optionally empties the S3 bucket. |
-| `full_cleanup.py` | Full reset: clears S3, EC2 index, and all local state. |
+| [`app.py`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/app/app.py) | Flask entry point. Exposes `/`, `/upload`, `/search`, `/download`, and a live `/stream-logs` SSE endpoint for real-time console output in the browser UI. |
+| [`scs_client.py`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/app/scs_client.py) | Upload pipeline: keyword extraction, XOR-chain index construction, Jianding tag generation, AES-GCM encryption, S3 upload, and EC2 index update. |
+| [`scs_search.py`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/app/scs_search.py) | Search pipeline: trapdoor generation, EC2 chain traversal, dual-layer Jianding verification (index MAC + S3 content hash + completeness), and client-side decryption. |
+| [`encryption.py`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/app/encryption.py) | Key derivation (`derive_keys`) and AES-GCM file encryption/decryption. Implements Algorithms 1, 2, and 6. |
+| [`aws_client.py`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/app/aws_client.py) | Thin boto3 wrapper for S3 upload and download. |
+| [`ec2_server.py`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/app/ec2_server.py) | Flask server deployed on EC2. Implements the `/update` (Algorithm 2 store) and `/search` (Algorithm 5 chain traversal) endpoints. |
+| [`hexie.py`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/app/hexie.py) | Legacy trapdoor helper. Loads local `di_state` and returns `(kt1, π)` for a keyword. |
+| [`jianding.py`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/app/jianding.py) | Reserved for standalone Jianding verification utilities. |
+| [`hexie_chain_visualiser.py`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/app/hexie_chain_visualiser.py) | Developer utility to visualise the XOR chain structure in `local_hexie_state.json`. |
+| [`hexie_inspector.py`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/app/hexie_inspector.py) | Developer utility to inspect individual chain entries. |
+| [`local_server.py`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/app/local_server.py) | Local EC2 simulation server for offline/testing use. |
+| [`scs_cleanup.py`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/app/scs_cleanup.py) | Cleanup utility. Clears local state files, downloads, and optionally empties the S3 bucket. |
+| [`full_cleanup.py`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/app/full_cleanup.py) | Full reset: clears S3, EC2 index, and all local state. |
 
 ### Research / Access Control Scripts (root)
 
 | Module | Purpose |
 |---|---|
-| `hierarchical_secret_sharing.py` | Pure-Python Shamir's Secret Sharing over a 521-bit prime field. Implements a two-level hierarchical tree (departments → users) for unlocking the master trapdoor key. |
-| `htv_dsse.py` | Alternative HTV-DSSE demo using the `secretsharing` library. Demonstrates the same department/user threshold access model. |
+| [`hierarchical_secret_sharing.py`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/hierarchical_secret_sharing.py) | Pure-Python Shamir's Secret Sharing over a 521-bit prime field. Implements a two-level hierarchical tree (departments → users) for unlocking the master trapdoor key. |
+| [`htv_dsse.py`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/htv_dsse.py) | Alternative HTV-DSSE demo using the `secretsharing` library. Demonstrates the same department/user threshold access model. |
 
 ### UI Templates (`app/templates/`)
 
 | File | Purpose |
 |---|---|
-| `index.html` | Landing dashboard. Shows current S3 file count. |
-| `upload.html` | Upload interface with live console (SSE stream) showing encryption, keyword extraction, and S3 progress. |
-| `search.html` | Search interface. Displays Jianding verification results alongside matched files and provides a download button. |
+| [`index.html`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/app/templates/index.html) | Landing dashboard. Shows current S3 file count. |
+| [`upload.html`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/app/templates/upload.html) | Upload interface with live console (SSE stream) showing encryption, keyword extraction, and S3 progress. |
+| [`search.html`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/app/templates/search.html) | Search interface. Displays Jianding verification results alongside matched files and provides a download button. |
 
 ### Infrastructure (`infrastructure/terraform/`)
 
 | File | Purpose |
 |---|---|
-| `main.tf` | Provisions the AWS provider, S3 bucket, EC2 instance (for hosting `ec2_server.py`), and security group (ports 22, 80, 443, 5000). |
-| `variables.tf` | Terraform input variable declarations. |
-| `outputs.tf` | Terraform output definitions (e.g., public EC2 IP). |
+| [`main.tf`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/infrastructure/terraform/main.tf) | Provisions the AWS provider, S3 bucket, EC2 instance (for hosting `ec2_server.py`), and security group (ports 22, 80, 443, 5000). |
+| [`variables.tf`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/infrastructure/terraform/variables.tf) | Terraform input variable declarations. |
+| [`outputs.tf`](https://github.com/Dhanush-sai-reddy/Secure-Cloud_storage/blob/main/infrastructure/terraform/outputs.tf) | Terraform output definitions (e.g., public EC2 IP). |
 
 ---
 
